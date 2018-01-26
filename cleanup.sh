@@ -5,8 +5,5 @@ if [ $(id -u) != "0" ]; then
 	exit 1
 fi
 
-echo 'forcibly unmounting rootfs'
 umount -f work/rootfs
-
-echo 'deleting everything in workdir'
 rm -rf work

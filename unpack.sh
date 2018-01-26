@@ -14,6 +14,8 @@ fi
 
 iso=$(realpath $1)
 
+set -x
+
 mkdir -p work
 cd work
 
@@ -21,17 +23,13 @@ mkdir -p mnt
 mkdir -p isodata
 mkdir -p rootfs
 
-echo 'mounting iso'
+# Mount and extract data.
 mount -t iso9660 -o loop,ro $iso mnt
-
-echo 'extracting isodata'
 cp -r mnt/* isodata
 
-echo 'unmounting iso'
+# Unmount
 umount mnt
 rmdir mnt
 
-echo 'mounting internal squashfs'
-mount isodata/casper/filesystem.squashfs rootfs
-
-echo 'Done!'
+# Now mount the rootfs
+mount -t squashfs -o rw isodata/casper/filesystem.squashfs rootfs
