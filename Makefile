@@ -11,7 +11,11 @@ download:
 
 unpack: download
 	@echo 'Extracting ISO contents...'
-	@sudo ./unpack.sh ${XUBU_ISO}
+	@./unpack.sh ${XUBU_ISO}
+
+package:
+	@echo 'Repacking ISO...'
+	@./mkiso.sh
 
 clean:
 	sudo ./cleanup.sh
