@@ -1,8 +1,8 @@
 #!/bin/bash
 
 workdir=$(realpath $1)
-scriptsdir=$(realpath scripts)
-overlaydir=$(realpath overlay)
+scriptsdir=$(realpath mods)
+overlaydir=$(realpath overlays)
 
 if [ "$(id -u)" != "0" ]; then
 	echo 'error: must be root!'
@@ -18,8 +18,9 @@ set -ex
 
 cd $workdir
 
-# Copy the overlay into the fs
-cp -r $overlaydir/* $workdir/rootfs
+# Copy the overlays into the relevant positions
+cp -rf $overlaydir/root/* $workdir/rootfs
+cp -rf $overlaydir/efi/* $workdir/isodata
 
 # Set up the script execution
 binddir=rootfs/mnt/scripts
@@ -44,4 +45,5 @@ popd
 
 # Unmount the scripts
 umount -f $binddir
+sync && sync
 rmdir $binddir
