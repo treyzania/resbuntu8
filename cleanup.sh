@@ -5,7 +5,9 @@ if [ $(id -u) != "0" ]; then
 	exit 1
 fi
 
-set -ex
+set -x
 
+umount -f $1/mnt # usually not necessary
+umount -f $1/rootfs/mnt/*
 umount -f $1/rootfs
 rm -rf $1

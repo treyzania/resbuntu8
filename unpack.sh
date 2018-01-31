@@ -25,6 +25,7 @@ fi
 mkdir -p $workdir
 cd $workdir
 mkdir -p mnt isodata rootfs
+rootfspath=$(realpath rootfs)
 
 # Mount and extract data.
 mount -t iso9660 -o loop,ro $iso mnt
@@ -34,5 +35,5 @@ cp -r mnt/* isodata
 umount mnt
 rmdir mnt
 
-# Now mount the rootfs
-mount -t squashfs -o rw isodata/casper/filesystem.squashfs rootfs
+# Extract the squashfs
+unsquashfs -f -d $rootfspath isodata/casper/filesystem.squashfs
