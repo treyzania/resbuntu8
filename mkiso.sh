@@ -1,5 +1,7 @@
 #!/bin/bash
 
+workdir=$(realpath $1)
+
 set -ex
 
 # Unmount the other filesystem.

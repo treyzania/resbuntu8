@@ -5,5 +5,7 @@ if [ $(id -u) != "0" ]; then
 	exit 1
 fi
 
-umount -f work/rootfs
-rm -rf work
+set -ex
+
+umount -f $1/rootfs
+rm -rf $1

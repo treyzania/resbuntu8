@@ -13,15 +13,18 @@ if [ "$1" == "" ]; then
 fi
 
 iso=$(realpath $1)
+workdir=$(realpath $2)
 
 set -x
 
-mkdir -p work
-cd work
+if [ -f $workdir ]; then
+	echo 'error: it looks like we already unpacked the ISO, try cleaning?'
+	exit 1
+fi
 
-mkdir -p mnt
-mkdir -p isodata
-mkdir -p rootfs
+mkdir -p $workdir
+cd $workdir
+mkdir -p mnt isodata rootfs
 
 # Mount and extract data.
 mount -t iso9660 -o loop,ro $iso mnt
