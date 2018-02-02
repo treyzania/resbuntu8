@@ -18,7 +18,7 @@ dpkg -P postfix
 
 # Now, hold the Linux packages (since those won't work anyways) and then upgrade stuff.
 apt-mark hold $(dpkg -l | awk '{ print $2 }' | grep -E '^linux')
-apt-mark locale
+apt-mark hold locales
 apt -y upgrade
 
 # Now install other packages for us.
