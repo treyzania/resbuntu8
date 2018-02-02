@@ -1,6 +1,7 @@
+# NOTE: We have to install smartmontools manually so that it doens't install postfix on us, so it isn't listed here
+
 # CLI applications
 testdisk
-smartmontools
 git
 vim
 rsync
