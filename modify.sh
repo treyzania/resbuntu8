@@ -30,9 +30,10 @@ cp -rf $overlaydir/efi/* $workdir/isodata
 chown -R root:root $workdir/isodata
 
 # Set up the script execution
+# (This used to be a bind mount but that was breaking things sometimes.)
 binddir=rootfs/mnt/scripts
 mkdir -p $binddir
-mount --bind $scriptsdir $binddir
+cp -r $scriptsdir/* $binddir
 
 # Go hide in the fs dir
 pushd rootfs
@@ -42,15 +43,14 @@ chroot . ls -l /mnt/scripts
 
 # Actually execute things
 set +e
-for f in mnt/scripts/*; do
+for f in $(find mnt/scripts -type f -executable); do
 	chroot . $f
+	# TODO Make it report mod failures.
 done
 set -e
 
 # Escape from the fs dir
 popd
 
-# Unmount the scripts
-umount -f $binddir
-sync && sync
-rmdir $binddir
+# Remove the scripts
+rm -rf $binddir

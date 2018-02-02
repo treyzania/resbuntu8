@@ -1,0 +1,19 @@
+# CLI applications
+testdisk
+smartmontools
+git
+vim
+rsync
+chntpw
+dmidecode
+sash
+
+# FS tools
+hfsplus
+hfsutils
+hfsprogs
+ntfs-3g
+exfat-fuse
+exfat-utils
+nfs-common
+smbnetfs
