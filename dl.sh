@@ -11,4 +11,6 @@ if [ -f $1 ]; then
 fi
 
 url='http://mirror.us.leaseweb.net/ubuntu-cdimage/xubuntu/releases/17.10/release/xubuntu-17.10.1-desktop-amd64.iso'
+
+mkdir -p $(dirname $1)
 curl -# -o $1 $url

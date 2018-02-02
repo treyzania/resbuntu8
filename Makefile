@@ -1,5 +1,5 @@
-XUBU_ISO=xubuntu.iso
 WORK_DIR=work
+XUBU_ISO=work/xubuntu.iso
 
 .PHONY: download package unpack clean
 

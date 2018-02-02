@@ -18,9 +18,16 @@ set -ex
 
 cd $workdir
 
-# Copy the overlays into the relevant positions
-cp -rf $overlaydir/root/* $workdir/rootfs
+# Apply the overlays for the root partition, which is really complicated to get the perms right.
+mkdir -p $workdir/tempoverlay
+cp -rf $overlaydir/root/* $workdir/tempoverlay
+chown -R root:root $workdir/tempoverlay
+cp -rf $workdir/tempoverlay/* $workdir/rootfs
+rm -rf $workdir/tempoverlay
+
+# Apply the overlays for the boot partition, which is simpler.
 cp -rf $overlaydir/efi/* $workdir/isodata
+chown -R root:root $workdir/isodata
 
 # Set up the script execution
 binddir=rootfs/mnt/scripts
