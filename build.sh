@@ -7,4 +7,4 @@ fi
 
 make unpack
 ./modify.sh work
-./mkiso resbuntu.iso work
+./mkiso.sh resbuntu.iso work
