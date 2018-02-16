@@ -26,8 +26,9 @@ cp -rf $workdir/tempoverlay/* $workdir/rootfs
 rm -rf $workdir/tempoverlay
 
 # Apply the overlays for the boot partition, which is simpler.
-cp -rf $overlaydir/efi/* $workdir/isodata
-chown -R root:root $workdir/isodata
+# TODO Change this to decide how it actually works.
+#cp -rf $overlaydir/efi/* $workdir/isodata
+#chown -R root:root $workdir/isodata
 
 # Set up the script execution
 # (This used to be a bind mount but that was breaking things sometimes.)

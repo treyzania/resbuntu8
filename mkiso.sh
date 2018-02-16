@@ -25,7 +25,6 @@ sync && sync
 
 # Now create the partition devices and format them.
 loopdev=$(losetup -f)
-echo 'Loopback device:"' $loopdev
 losetup -P $loopdev $iso
 #mksquashfs $workdir/rootfs $workdir/root.squashfs -b 1024k -comp xz -Xbcj x86 -e boot
 if [ ! -f $workdir/root.squashfs -o "$3" == "--resquash" ]; then
@@ -40,7 +39,15 @@ efimnt=$workdir/mnt/efi
 mkdir -p $efimnt
 mount $loopdev'p1' $efimnt
 mkdir -p $efimnt/boot
-grub-install --target=x86_64-efi --efi-directory=$efimnt --boot-directory=$efimnt/boot --removable
+grub-install --target=x86_64-efi --efi-directory=$efimnt --boot-directory=$efimnt/boot --removable --uefi-secure-boot $iso
 
-# Destroy the loopback device(s).
+# Also copy the kernel and initrd into the GRUB stuff.
+mkdir $efimnt/kernel
+cp $workdir/isodata/casper/{vmlinuz.efi,initrd.lz} $efimnt/kernel
+
+# Insert our own GRUB config.
+cat grub.cfg >> $efimnt/EFI/BOOT/grub.cfg
+
+# Destroy the loopback device(s), unmounting stuff as necessary.
+umount -f $efimnt
 losetup -d $loopdev
