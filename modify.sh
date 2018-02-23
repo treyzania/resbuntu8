@@ -18,17 +18,16 @@ set -ex
 
 cd $workdir
 
-# Apply the overlays for the root partition, which is really complicated to get the perms right.
-mkdir -p $workdir/tempoverlay
-cp -rf $overlaydir/root/* $workdir/tempoverlay
-chown -R root:root $workdir/tempoverlay
-cp -rf $workdir/tempoverlay/* $workdir/rootfs
-rm -rf $workdir/tempoverlay
-
-# Apply the overlays for the boot partition, which is simpler.
-# TODO Change this to decide how it actually works.
-#cp -rf $overlaydir/efi/* $workdir/isodata
-#chown -R root:root $workdir/isodata
+# Apply some overlay systems.
+function apply_overlay() {
+	mkdir -p $workdir/$1.tmpoverlay
+	cp -rf $overlaydir/$1/* $workdir/$1.tmpoverlay
+	chown -R root:root $workdir/$1.tmpoverlay
+	cp -rf $workdir/$1.tmpoverlay/* $workdir/$2
+	rm -rf $workdir/$1.tmpoverlay
+}
+apply_overlay root rootfs      # Root filesystem.
+apply_overlay initramfs initrd # The initramfs, where casper lives.
 
 # Set up the script execution
 # (This used to be a bind mount but that was breaking things sometimes.)

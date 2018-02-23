@@ -5,6 +5,16 @@ if [ $(id -u) != '0' ]; then
 	exit 1
 fi
 
-make unpack
-./modify.sh work
-./mkiso.sh resbuntu.iso work
+workdir=work
+iso=$workdir/xubuntu.iso
+
+set -e
+mkdir -p $workdir
+
+if [ ! -e $iso ]; then
+	./dl.sh $iso
+fi
+
+./unpack.sh $iso $workdir
+./modify.sh $workdir
+./mkiso.sh resbuntu.iso $workdir

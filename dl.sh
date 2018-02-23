@@ -5,7 +5,7 @@ if [ "$1" == "" ]; then
 	exit 1
 fi
 
-if [ -f $1 ]; then
+if [ -e $1 ]; then
 	echo 'error: file exists'
 	exit 1
 fi

@@ -17,14 +17,9 @@ workdir=$(realpath $2)
 
 set -x
 
-if [ -f $workdir ]; then
-	echo 'error: it looks like we already unpacked the ISO, try cleaning?'
-	exit 1
-fi
-
 mkdir -p $workdir
 cd $workdir
-mkdir -p mnt isodata rootfs
+mkdir -p mnt isodata rootfs initrd
 rootfspath=$(realpath rootfs)
 
 # Mount and extract data.
@@ -37,3 +32,8 @@ rmdir mnt
 
 # Extract the squashfs
 unsquashfs -f -d $rootfspath isodata/casper/filesystem.squashfs
+
+# Extract the initrd
+pushd $workdir/initrd
+lzma -dc -S .lz $workdir/isodata/casper/initrd.lz | cpio -id
+popd
