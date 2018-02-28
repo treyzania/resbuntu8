@@ -8,7 +8,7 @@ if [ $(id -u) != '0' ]; then
 fi
 
 if [ "$1" == "" ]; then
-	echo "usage: $0 <iso>"
+	echo "usage: $0 <iso> <workdir>"
 	exit 1
 fi
 

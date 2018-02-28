@@ -20,11 +20,7 @@ cd $workdir
 
 # Apply some overlay systems.
 function apply_overlay() {
-	mkdir -p $workdir/$1.tmpoverlay
-	cp -rf $overlaydir/$1/* $workdir/$1.tmpoverlay
-	chown -R root:root $workdir/$1.tmpoverlay
-	cp -rf $workdir/$1.tmpoverlay/* $workdir/$2
-	rm -rf $workdir/$1.tmpoverlay
+	rsync '--chown=root:root' $overlaydir/$1 $2
 }
 apply_overlay root rootfs      # Root filesystem.
 apply_overlay initramfs initrd # The initramfs, where casper lives.
